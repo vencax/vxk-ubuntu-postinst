@@ -1,0 +1,15 @@
+#loopback
+auto lo
+iface lo inet loopback
+
+# ethernet (bridge the eth0 to allow openvpn)
+auto br0
+iface br0 inet static
+    address {{ SERVERIP }}
+    netmask 255.255.255.0
+    gateway {{ GATEWAY }}
+    dns-server {{ SERVERIP }}
+	#network interfaces on which to enable the bridge
+	bridge_ports eth0
+	post-up ip link set eth0 promisc on
+	post-up ip link set br0 promisc on
