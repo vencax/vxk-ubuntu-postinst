@@ -1,0 +1,38 @@
+authoritative;
+default-lease-time 86400;   # in seconds
+option domain-name "{{ DOMAIN }}";
+option domain-name-servers {{ SERVERIP }};
+option subnet-mask 255.255.255.0;
+option ntp-servers {{ SERVERIP }};
+#option netbios-name-servers {{ SERVERIP }};
+#option netbios-dd-server {{ SERVERIP }};
+#option netbios-node-type 8;
+#option netbios-scope "";
+option ip-forwarding off;
+
+ddns-update-style interim;  # DHCP server behaviour type
+ddns-updates on;
+allow client-updates;       # na žádost klienta provedeme aktualizaci DNS záznamu
+use-host-decl-names on;     # we use name, that client sends
+update-static-leases on;
+
+key {{ DOMAIN }}KEY {
+       algorithm HMAC-MD5;
+       secret "K9V9KzMpQE9vutoWw7cQ7Q==";
+}
+zone {{ DOMAIN }}. {
+       primary 127.0.0.1;
+       key {{ DOMAIN }}KEY;
+}
+zone {{ REVNETWORK }}.in-addr.arpa. {
+       primary 127.0.0.1;
+       key {{ DOMAIN }}KEY;
+}
+
+subnet {{ NETWORKPART }}.0 netmask 255.255.255.0 {
+	option routers {{ ROUTER }};
+	range {{ NETWORKPART }}.5 {{ NETWORKPART }}.249;
+	option subnet-mask 255.255.255.0;
+	
+	# here will reserved hosts follow:
+}
