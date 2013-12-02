@@ -18,5 +18,5 @@ sudo sed 's/sleep 40/#sleep 40/g' -i /etc/init/failsafe.conf
 sudo sed 's/sleep 59/#sleep 59/g' -i /etc/init/failsafe.conf
 
 # setup DNS resolver
-echo "nameserver $SERVER_ADDRESS" | sudo tee /etc/resolvconf/resolv.conf.d/base
-echo "domain $SITE_DOMAIN" | sudo tee /etc/resolvconf/resolv.conf.d/base
+echo "nameserver $SERVER_ADDRESS" | sudo tee -a /etc/resolvconf/resolv.conf.d/base
+echo "domain $SITE_DOMAIN" | sudo tee -a /etc/resolvconf/resolv.conf.d/base
