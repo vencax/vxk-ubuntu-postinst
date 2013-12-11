@@ -1,0 +1,18 @@
+include "/etc/bind/rndc.key";
+
+zone "{{ DOMAIN }}." IN {
+  file "{{ DOMAIN }}.hosts";
+  type master;
+  allow-update {
+    localhost; key rndc-key;
+  };
+
+};
+
+zone "{{ REVNETWORK }}.in-addr.arpa" IN {
+  type master;
+  file "{{ REVNETWORK }}.in-addr.arpa.hosts";
+  allow-update {
+    localhost; key rndc-key;
+  };
+};

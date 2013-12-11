@@ -1,0 +1,12 @@
+$ORIGIN .
+$TTL 86400      ; 1 day
+{{ REVNETWORK }}.in-addr.arpa  IN SOA  {{ SERVER_NAME }}.{{ DOMAIN }}. root.{{ DOMAIN }}. (
+                                2007119253 ; serial
+                                28800      ; refresh (8 hours)
+                                7200       ; retry (2 hours)
+                                120960     ; expire (1 day 9 hours 36 minutes)
+                                1440       ; minimum (24 minutes)
+                                )
+                        NS      {{ SERVER_NAME }}.
+$ORIGIN {{ REVNETWORK }}.in-addr.arpa.
+1                       PTR     {{ SERVER_NAME }}.{{ DOMAIN }}.

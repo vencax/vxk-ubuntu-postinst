@@ -1,0 +1,18 @@
+; BIND db file for {{ DOMAIN }}
+
+$TTL 86400
+
+@       IN      SOA     {{ SERVER_NAME }}.      admin.{{ DOMAIN }}. (
+                        2012071701	; serial number YYMMDDNN
+                        28800           ; Refresh
+                        7200            ; Retry
+                        864000          ; Expire
+                        86400           ; Min TTL
+			)
+
+                NS      {{ SERVER_NAME }}. 
+
+
+$ORIGIN {{ DOMAIN }}.
+{{ SERVER_NAME }}		A	{{ SERVER_ADDRESS }}
+www						CNAME	{{ SERVER_NAME }}
