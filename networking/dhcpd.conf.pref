@@ -16,17 +16,19 @@ allow client-updates;       # na žádost klienta provedeme aktualizaci DNS záz
 use-host-decl-names on;     # we use name, that client sends
 update-static-leases on;
 
-key {{ DOMAIN }}KEY {
+# {{ PXEBOOT_OPTS_HERE }}
+
+key rndc-key {
        algorithm HMAC-MD5;
-       secret "K9V9KzMpQE9vutoWw7cQ7Q==";
+       secret {{ SECRET }}
 }
 zone {{ DOMAIN }}. {
        primary 127.0.0.1;
-       key {{ DOMAIN }}KEY;
+       key rndc-key;
 }
 zone {{ REVNETWORK }}.in-addr.arpa. {
        primary 127.0.0.1;
-       key {{ DOMAIN }}KEY;
+       key rndc-key;
 }
 
 subnet {{ NETWORKPART }}.0 netmask 255.255.255.0 {

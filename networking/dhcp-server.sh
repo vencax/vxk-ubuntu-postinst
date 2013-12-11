@@ -15,3 +15,6 @@ sudo sed "s/{{ SERVERIP }}/$SERVER_ADDRESS/g" -i $CNF
 sudo sed "s/{{ ROUTER }}/$SITE_GATEWAY/g" -i $CNF
 sudo sed "s/{{ NETWORKPART }}/$NETWORKPART/g" -i $CNF
 sudo sed "s/{{ REVNETWORK }}/$REVNETWORK/g" -i $CNF
+
+SECRET=`sudo cat /etc/bind/rndc.key | grep secret | cut -d ' ' -f 2`
+sudo sed "s/{{ SECRET }}/$SECRET/g" -i $CNF
