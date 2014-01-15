@@ -1,0 +1,12 @@
+[default]
+
+LTSP_FATCLIENT = true
+LDM_SYSLOG = false
+LOCAL_APPS = true
+LDM_SESSION = "/usr/bin/startlubuntu"
+X_NUMLOCK = true
+XKBLAYOUT="cz,us"
+XKBVARIANT=","
+XKBOPTIONS="grp:alt_shift_toggle"
+FSTAB_0="{{ SERVER_ADDRESS }}:/samba/homes /samba/homes nfs defaults 0 0"
+#FSTAB_1="{{ SERVER_ADDRESS }}:/samba/shares /media/samba nfs defaults 0 0"

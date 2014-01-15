@@ -1,0 +1,17 @@
+# The arch or name to mount.
+ARCH=i386
+
+# Whether the package cache should be mounted.
+MOUNT_PACKAGE_CACHE=true
+
+# Whether the dev should be mounted.
+MOUNT_DEV=false
+
+# Whether the proc should be mounted.
+MOUNT_PROC=false
+
+# Whether all should be mounted.
+MOUNT_ALL=false
+
+# Whether /etc/resolv.conf should be copied.
+COPY_RESOLV_CONF=true

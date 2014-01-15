@@ -1,0 +1,14 @@
+default menu.c32
+prompt 0
+timeout 100
+menu title Vyber si
+menu autoboot Start Window$ za # sekund
+
+label disk0
+  menu default
+  menu label Windows
+  localboot -1
+
+label Linux
+kernel vmlinuz
+append ro initrd=initrd.img root=/dev/nbd0 init=/sbin/init-ltsp quiet splash plymouth:force-splash vt.handoff=7 nbdroot=:ltsp_i386
