@@ -9,7 +9,7 @@ NSSWITCH_CONF_FILE=/etc/nsswitch.conf
 sudo sed 's/compat/compat mysql/g' -i $NSSWITCH_CONF_FILE
 
 CFGFILE=/etc/libnss-mysql.cfg
-sudo cp libnss-mysql.cfg.pref $confFile
+sudo cp libnss-mysql.conf.pref $CFGFILE
 sudo sed "s/{{ SERVER_NAME }}/$SERVER_NAME/g" -i $CFGFILE
 sudo sed "s/{{ DB_NAME }}/$USERDB_NAME/g" -i $CFGFILE
 sudo sed "s/{{ DB_USERNAME }}/$USERDB_USERNAME/g" -i $CFGFILE
