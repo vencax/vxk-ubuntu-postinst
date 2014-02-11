@@ -1,0 +1,9 @@
+[uwsgi]
+module = mysite.wsgi
+pythonpath = /var/wsgi/s21
+chdir = /var/wsgi/s21
+env = DJANGO_SECRET={{ DJANGO_SECRET }}
+env = DBUSER={{ DBUSER }}
+env = DBPASS={{ DBPASS }}
+env = COMMAND_TARGET_USER={{ COMMAND_TARGET_USER }}
+env = COMMAND_TARGET_PASSWD={{ COMMAND_TARGET_PASSWD }}

@@ -1,0 +1,32 @@
+server {
+    server_name {{ DOMAIN }};
+    rewrite ^(.*) http://www.{{ DOMAIN }}$1 permanent;
+}
+server {
+        listen 80;
+        server_name www.{{ DOMAIN }};
+
+        set $home /var/wsgi/s21;
+
+        client_max_body_size 2000m;
+        client_body_timeout 30;
+        keepalive_timeout 120;
+
+        location /favicon.ico {
+                alias $home/mysite/static/images/favicon.ico;
+        }
+        location /media/ {
+                root $home;
+                autoindex on;
+        }
+        location /static/ {
+                root $home;
+                autoindex on;
+        }
+
+        # main app
+        location / {
+                include uwsgi_params;
+                uwsgi_pass unix:/run/uwsgi/app/s21/socket;
+        }
+}
