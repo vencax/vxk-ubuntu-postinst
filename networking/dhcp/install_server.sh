@@ -18,3 +18,6 @@ sudo sed "s/{{ REVNETWORK }}/$REVNETWORK/g" -i $CNF
 
 SECRET=`sudo cat /etc/bind/rndc.key | grep secret | cut -d ' ' -f 2`
 sudo sed "s/{{ SECRET }}/$SECRET/g" -i $CNF
+
+sudo cp dhcpdManager.py /usr/sbin
+sudo chmod a+x /usr/sbin/dhcpdManager.py
