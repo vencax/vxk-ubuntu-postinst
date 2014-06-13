@@ -1,4 +1,8 @@
+export NETPART=10.10.1
 export SERVER_NAME=lserver
+export SERVER_ADDRESS=$NETPART.1
+export SITE_DOMAIN=skola.local
+export SITE_GATEWAY=$NETPART.255
 export USERDB_USERNAME=pgina
 export USERDB_PWD=
 export USERDB_NAME=pginadb
