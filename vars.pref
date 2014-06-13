@@ -1,0 +1,6 @@
+export SERVER_NAME=lserver
+export USERDB_USERNAME=pgina
+export USERDB_PWD=
+export USERDB_NAME=pginadb
+export OVPN_RANGE_BEGIN=$NETPART.250
+export OVPN_RANGE_END=$NETPART.254
