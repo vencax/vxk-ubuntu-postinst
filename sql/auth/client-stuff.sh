@@ -3,7 +3,7 @@ if [ -z "$USERDB_USERNAME" ]; then echo "export USERDB_USERNAME"; exit 11; fi
 if [ -z "$USERDB_PWD" ]; then echo "export USERDB_PWD"; exit 11; fi
 if [ -z "$USERDB_NAME" ]; then echo "export USERDB_NAME"; exit 11; fi
 
-aptitude install -y libnss-mysql-bg mysql-client
+sudo aptitude install -y libnss-mysql-bg mysql-client
 
 NSSWITCH_CONF_FILE=/etc/nsswitch.conf
 sudo sed 's/compat/compat mysql/g' -i $NSSWITCH_CONF_FILE
