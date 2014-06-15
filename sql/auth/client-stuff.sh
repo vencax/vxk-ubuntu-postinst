@@ -18,4 +18,4 @@ sudo sed "s/{{ DB_PWD }}/$USERDB_PWD/g" -i $CFGFILE
 CFGFILE=/etc/libnss-mysql-root.cfg
 echo "username  $USERDB_USERNAME" | sudo tee $CFGFILE
 echo "password  $USERDB_PWD" | sudo tee -a $CFGFILE
-chmod 600 $CFGFILE
+sudo chmod 600 $CFGFILE
