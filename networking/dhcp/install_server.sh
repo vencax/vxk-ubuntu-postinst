@@ -19,5 +19,6 @@ sudo sed "s/{{ REVNETWORK }}/$REVNETWORK/g" -i $CNF
 SECRET=`sudo cat /etc/bind/rndc.key | grep secret | cut -d ' ' -f 2`
 sudo sed "s/{{ SECRET }}/$SECRET/g" -i $CNF
 
-sudo pip install git+github.com/vencax/py-dhcpd-manipulation
+aptitude install python-pip -y
+sudo pip install git+git://github.com/vencax/py-dhcpd-manipulation
 sudo pip install git+git://github.com/vencax/LeaseInfo
