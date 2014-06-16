@@ -3,10 +3,6 @@ if [ -z "$SERVER_ADDRESS" ]; then echo "export SERVER_ADDRESS"; exit 11; fi
 if [ -z "$SITE_DOMAIN" ]; then echo "export SITE_DOMAIN"; exit 11; fi
 if [ -z "$SITE_GATEWAY" ]; then echo "export SITE_GATEWAY"; exit 11; fi
 
-ORIGHOSTNAME=`cat /etc/hostname`
-echo $SERVER_NAME | sudo tee /etc/hostname
-sudo sed "s/$ORIGHOSTNAME/$SERVER_NAME/g" -i /etc/hosts
-
 sudo aptitude install -y bridge-utils
 
 INFCSFNAME=/etc/network/interfaces
@@ -22,3 +18,7 @@ sudo sed 's/sleep 59/#sleep 59/g' -i /etc/init/failsafe.conf
 # setup DNS resolver
 echo "nameserver $SERVER_ADDRESS" | sudo tee -a /etc/resolvconf/resolv.conf.d/base
 echo "domain $SITE_DOMAIN" | sudo tee -a /etc/resolvconf/resolv.conf.d/base
+
+ORIGHOSTNAME=`cat /etc/hostname`
+echo $SERVER_NAME | sudo tee /etc/hostname
+sudo sed "s/$ORIGHOSTNAME/$SERVER_NAME/g" -i /etc/hosts
