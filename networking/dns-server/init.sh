@@ -51,3 +51,4 @@ logging{
 };' | sudo tee -a /etc/bind/named.conf.options
 
 # sudo sed "s/dnssec-validation auto/dnssec-validation no/g" -i /etc/bind/named.conf.options
+sudo service bind9 restart
