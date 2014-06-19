@@ -3,7 +3,7 @@
 LTSP_FATCLIENT = true
 LDM_SYSLOG = false
 LOCAL_APPS = true
-LDM_SESSION = "/usr/bin/startlubuntu"
+LDM_SESSION = "lxsession -e LXDE -s Lubuntu"
 X_NUMLOCK = true
 XKBLAYOUT="cz,us"
 XKBVARIANT=","
