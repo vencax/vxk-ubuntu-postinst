@@ -9,6 +9,3 @@ label disk0
   menu label Windows
   localboot -1
 
-label Linux
-kernel vmlinuz
-append ro initrd=initrd.img root=/dev/nbd0 init=/sbin/init-ltsp quiet splash plymouth:force-splash vt.handoff=7 nbdroot=:ltsp_i386

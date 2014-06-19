@@ -40,9 +40,11 @@ exit
 EOF
 
 echo "
-ltsp-update-image
-cp $TFTPROOT/menu.c32.pref $TFTPROOT/pxelinux.cfg/default
+ltsp-update-kernels
+tail -n +6 $TFTPROOT/pxelinux.cfg/default > /tmp/.tempxe.conf
+cat $TFTPROOT/menu.c32.pref /tmp/.tempxe.conf > $TFTPROOT/pxelinux.cfg/default
+
 service nbd-server restart
 service tftpd-hpa restart
-" | sudo tee /usr/sbin/ltsp-update-image-my
-sudo chmod 775 /usr/sbin/ltsp-update-image-my
+" | sudo tee /usr/sbin/ltsp-update-kernels-my
+sudo chmod 775 /usr/sbin/ltsp-update-kernels-my
