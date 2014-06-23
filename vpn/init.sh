@@ -17,10 +17,12 @@ sudo chmod a+x $ROOT/up.sh
 sudo cp down.sh.pref $ROOT/down.sh
 sudo chmod a+x $ROOT/down.sh
 
-sudo cp bridging.conf.pref $ROOT/confs/bridging.conf
+sudo cp bridging.conf $ROOT/confs/bridging.conf
 sudo sed "s/{{ SERVER_ADDRESS }}/$SERVER_ADDRESS/g" -i $ROOT/confs/bridging.conf
 sudo sed "s/{{ OVPN_RANGE_BEGIN }}/$OVPN_RANGE_BEGIN/g" -i $ROOT/confs/bridging.conf
 sudo sed "s/{{ OVPN_RANGE_END }}/$OVPN_RANGE_END/g" -i $ROOT/confs/bridging.conf
+HERE=`pwd`
 cd $ROOT && sudo ln -s confs/bridging.conf openvpn.conf
 
-sh create-keys.sh
+cd $HERE
+sh -x create-keys.sh

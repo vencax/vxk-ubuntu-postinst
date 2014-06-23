@@ -4,7 +4,7 @@ if [ -z "$CITY" ]; then echo "export CITY"; exit 11; fi
 TMP=/tmp/easy-rsa
 
 mkdir $TMP
-cp -R /usr/share/doc/openvpn/examples/easy-rsa/2.0/* $TMP
+cp -r /usr/share/easy-rsa/* $TMP
 
 sed 's/KEY_COUNTRY="US"/KEY_COUNTRY="CZ"/g' -i $TMP/vars
 sed 's/KEY_PROVINCE="CA"/KEY_PROVINCE="CZ"/g' -i $TMP/vars
