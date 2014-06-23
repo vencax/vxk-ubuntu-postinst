@@ -63,6 +63,7 @@ sudo service uwsgi restart
 
 source .env && venv/bin/python manage.py collectstatic -l --noinput
 source .env && venv/bin/python manage.py syncdb
+source .env && venv/bin/python manage.py createsuperuser
 
 # install nginx
 sudo aptitude install -y nginx
