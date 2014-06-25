@@ -22,5 +22,8 @@ sudo sed "s/{{ SECRET }}/$SECRET/g" -i $CNF
 sudo aptitude install python-pip -y
 sudo pip install git+git://github.com/vencax/py-dhcpd-manipulation
 sudo pip install git+git://github.com/vencax/LeaseInfo
+SYS_WIDE_ENV=/etc/environment
+echo "DHCPD_CONF_FILE=/etc/dhcp/dhcpd.conf" | sudo tee -a $SYS_WIDE_ENV
+echo "DHCPD_LEASES_FILE=/var/lib/dhcp/dhcpd.leases" | sudo tee -a $SYS_WIDE_ENV
 
 sudo service isc-dhcp-server restart
