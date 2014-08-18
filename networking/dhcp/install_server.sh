@@ -16,7 +16,7 @@ sudo sed "s/{{ ROUTER }}/$SITE_GATEWAY/g" -i $CNF
 sudo sed "s/{{ NETWORKPART }}/$NETPART/g" -i $CNF
 sudo sed "s/{{ REVNETWORK }}/$REVNETWORK/g" -i $CNF
 
-SECRET=`sudo cat /etc/bind/rndc.key | grep secret | cut -d ' ' -f 2` | sed 's/\//\\\//g'
+SECRET=`sudo cat /etc/bind/rndc.key | grep secret | cut -d ' ' -f 2 | sed 's/\//\\\//g'`
 sudo sed "s/{{ SECRET }}/$SECRET/g" -i $CNF
 
 sudo aptitude install python-pip -y
