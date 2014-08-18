@@ -7,7 +7,7 @@ sudo aptitude install -y mysql-server
 
 CFGFILE=/etc/mysql/my.cnf
 sudo sed "s/127.0.0.1/0.0.0.0/g" -i $CFGFILE
-sudo sed "s/[mysqld]/[mysqld]\ncollation-server = utf8_unicode_ci\ninit-connect='SET NAMES utf8'\ncharacter-set-server = utf8/g"  -i $CFGFILE
+sudo sed "s/\[mysqld\]/[mysqld]\ncollation-server = utf8_unicode_ci\ninit-connect='SET NAMES utf8'\ncharacter-set-server = utf8/g"  -i $CFGFILE
 sudo service mysql restart
 
 sudo mysqladmin -p create $USERDB_NAME
