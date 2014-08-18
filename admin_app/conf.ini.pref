@@ -1,6 +1,7 @@
 [uwsgi]
 module = mysite.wsgi
 pythonpath = /var/wsgi/s21
+virtualenv = /var/wsgi/s21/venv
 chdir = /var/wsgi/s21
 env = DJANGO_SECRET={{ DJANGO_SECRET }}
 env = DBUSER={{ DBUSER }}
