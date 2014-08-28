@@ -1,3 +1,4 @@
+log-facility dhcpd0;
 authoritative;
 default-lease-time 86400;   # in seconds
 option domain-name "{{ DOMAIN }}";

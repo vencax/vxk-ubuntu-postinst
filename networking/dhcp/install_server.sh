@@ -26,4 +26,10 @@ SYS_WIDE_ENV=/etc/environment
 echo "DHCPD_CONF_FILE=/etc/dhcp/dhcpd.conf" | sudo tee -a $SYS_WIDE_ENV
 echo "DHCPD_LEASES_FILE=/var/lib/dhcp/dhcpd.leases" | sudo tee -a $SYS_WIDE_ENV
 
+cat <<EOF | sudo tee /etc/rsyslog.d/25-dhcpd.conf
+dhcpd0.*                /var/log/dhcpd.log
+dhcpd0.none             -/var/log/syslog
+EOF
+
+sudo service rsyslog restart
 sudo service isc-dhcp-server restart
