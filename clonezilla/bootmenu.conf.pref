@@ -1,0 +1,9 @@
+menu begin tools
+menu label useful TOolz
+
+label Clonezilla-live
+MENU LABEL Clonezilla Live (Ramdisk)
+KERNEL czilla.vmlinuz
+APPEND initrd=czilla.initrd.img boot=live config noswap nolocales edd=on nomodeset ocs_live_run="ocs-live-general" ocs_live_extra_param="" keyboard-layouts="" ocs_live_batch="no" locales="" vga=788 nosplash noprompt fetch=tftp://{{ SERVER_ADDRESS }}/ltsp/i386/czilla.filesystem.squashfs
+
+menu end
