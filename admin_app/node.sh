@@ -6,9 +6,13 @@ NODEAPPDIR="/var/node"
 function nvm() {
   NVM_DIR="/usr/local/nvm"
   curl https://raw.githubusercontent.com/creationix/nvm/v0.20.0/install.sh | bash
+  source ~/.bashrc
+  nvm install v0.11
+  nvm alias default v0.11
 }
 
-function addNodeInstance(instanceName) {
+function addNodeInstance() {
+  instanceName=$1
   $CFGFILE=/etc/init.d/$instanceName
   cp node_template.conf.pref $CFGFILE
   sudo sed "s/{{ NAME }}/$instanceName/g" -i $CFGFILE
@@ -30,8 +34,10 @@ function installDhcpdRest() {
   echo "export SERVER_SECRET=$SERVERSECRET" >> .env
   #echo "export CORSORIGIN="192.168.1.1" >> .env
 
-  addNodeInstance($APPNAME)
+  addNodeInstance $APPNAME
 }
+
+sudo mkdir $NODEAPPDIR && sudo chown $USER $NODEAPPDIR
 
 nvm
 
