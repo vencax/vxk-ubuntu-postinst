@@ -17,7 +17,7 @@
 . /lib/lsb/init-functions
 
 pidFile="/var/run/{{ NAME }}.pid"
-logFile="/var/run/{{ NAME }}.log"
+logFile="/var/log/{{ NAME }}.log"
 
 #command="/usr/local/nvm/nvm-exec node"
 command="node"
