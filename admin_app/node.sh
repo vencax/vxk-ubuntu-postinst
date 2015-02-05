@@ -7,8 +7,10 @@ function nvm() {
   # NVM_DIR="/usr/local/nvm"
   curl https://raw.githubusercontent.com/creationix/nvm/v0.20.0/install.sh | bash
   source ~/.bashrc
+  export NVM_NODEJS_ORG_MIRROR=http://nodejs.org/dist
   nvm install v0.11
   nvm alias default v0.11
+  npm set strict-ssl false
 }
 
 function addNodeInstance() {
