@@ -2,23 +2,28 @@
 if [ -z "$SERVERSECRET" ]; then echo "export SERVERSECRET"; exit 11; fi
 
 NODEAPPDIR="/var/node"
+ORIGDIR=$PWD
 
-function nvm() {
+function installNvm() {
   # NVM_DIR="/usr/local/nvm"
   curl https://raw.githubusercontent.com/creationix/nvm/v0.20.0/install.sh | bash
   source ~/.bashrc
+  nvm -v
   export NVM_NODEJS_ORG_MIRROR=http://nodejs.org/dist
-  nvm install v0.11
-  nvm alias default v0.11
+  nvm install 0.11
+  nvm alias default 0.11
   npm set strict-ssl false
 }
 
 function addNodeInstance() {
+  CURRDIR=$PWD
+  cd $ORIGDIR
   instanceName=$1
-  $CFGFILE=/etc/init.d/$instanceName
-  cp node_template.conf.pref $CFGFILE
-  sudo sed "s/{{ NAME }}/$instanceName/g" -i $CFGFILE
-  update-rc.d $instanceName defaults
+  cp node_template.conf.pref $instanceName.conf
+  sed "s/{{ NAME }}/$instanceName/g" -i $instanceName.conf
+  sudo mv $instanceName.conf /etc/init.d/$instanceName
+  sudo update-rc.d $instanceName defaults
+  cd $CURRDIR
 }
 
 function installDhcpdRest() {
@@ -36,6 +41,13 @@ function installDhcpdRest() {
   #echo "export CORSORIGIN="192.168.1.1" >> .env
 
   addNodeInstance $APPNAME
+
+  sudo aptitude install python-pip -y
+  sudo pip install git+git://github.com/vencax/py-dhcpd-manipulation
+  sudo pip install git+git://github.com/vencax/LeaseInfo
+  # SYS_WIDE_ENV=/etc/environment
+  # echo "DHCPD_CONF_FILE=/etc/dhcp/dhcpd.conf" | sudo tee -a $SYS_WIDE_ENV
+  # echo "DHCPD_LEASES_FILE=/var/lib/dhcp/dhcpd.leases" | sudo tee -a $SYS_WIDE_ENV
 }
 
 function installUserman() {
@@ -68,14 +80,16 @@ function installAngularApp {
   cd $NODEAPPDIR
   git clone https://github.com/vencax/angular-eduit
   cd angular-eduit
-  export API_URL='eduit-userman.skola.local'
-  export DHCPD_URL='dhcpd-rest.skola.local'
-  ./node_modules/.bin/lineman build
+  echo "export API_URL='eduit-userman.skola.local'" > .env
+  echo "export DHCPD_URL='dhcpd-rest.skola.local'" >> .env
+  source .env && ./node_modules/.bin/lineman build
 }
 
 sudo mkdir $NODEAPPDIR && sudo chown $USER $NODEAPPDIR
 
-nvm
+# installNvm
+sudo aptitude install nodejs nodejs-legacy npm
+npm install forever -g
 
 installDhcpdRest
 installUserman
