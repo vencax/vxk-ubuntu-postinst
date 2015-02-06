@@ -6,7 +6,7 @@ if [ -z "$REVNETWORK" ]; then echo "export REVNETWORK"; exit 11; fi
 
 ROOT=/etc/dhcp
 sudo aptitude install -y dhcp3-server
-    
+
 CNF=$ROOT/dhcpd.conf
 sudo cp dhcpd.conf.pref $ROOT/dhcpd.conf
 
@@ -18,13 +18,6 @@ sudo sed "s/{{ REVNETWORK }}/$REVNETWORK/g" -i $CNF
 
 SECRET=`sudo cat /etc/bind/rndc.key | grep secret | cut -d ' ' -f 2 | sed 's/\//\\\//g'`
 sudo sed "s/{{ SECRET }}/$SECRET/g" -i $CNF
-
-sudo aptitude install python-pip -y
-sudo pip install git+git://github.com/vencax/py-dhcpd-manipulation
-sudo pip install git+git://github.com/vencax/LeaseInfo
-SYS_WIDE_ENV=/etc/environment
-echo "DHCPD_CONF_FILE=/etc/dhcp/dhcpd.conf" | sudo tee -a $SYS_WIDE_ENV
-echo "DHCPD_LEASES_FILE=/var/lib/dhcp/dhcpd.leases" | sudo tee -a $SYS_WIDE_ENV
 
 cat <<EOF | sudo tee /etc/rsyslog.d/25-dhcpd.conf
 dhcpd0.*                /var/log/dhcpd.log
