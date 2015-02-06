@@ -21,6 +21,7 @@ function addNodeInstance() {
   instanceName=$1
   cp node_template.conf.pref $instanceName.conf
   sed "s/{{ NAME }}/$instanceName/g" -i $instanceName.conf
+  chmod 755 $instanceName.conf
   sudo mv $instanceName.conf /etc/init.d/$instanceName
   sudo update-rc.d $instanceName defaults
   cd $CURRDIR
