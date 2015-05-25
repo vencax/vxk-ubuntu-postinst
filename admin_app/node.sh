@@ -5,13 +5,15 @@ NODEAPPDIR="/var/node"
 ORIGDIR=$PWD
 
 function installNvm() {
-  # NVM_DIR="/usr/local/nvm"
-  curl https://raw.githubusercontent.com/creationix/nvm/v0.20.0/install.sh | bash
-  source ~/.bashrc
+  NVM_DIR="/usr/local/nvm"
+  curl https://raw.githubusercontent.com/creationix/nvm/v0.23.3/install.sh | \
+    sudo NVM_DIR=$NVM_DIR PROFILE=/etc/profile bash
+  source /etc/profile
+  sudo chown -R $USER NVM_DIR
   nvm -v
   export NVM_NODEJS_ORG_MIRROR=http://nodejs.org/dist
-  nvm install 0.11
-  nvm alias default 0.11
+  nvm install 0.10
+  nvm alias default 0.10
   npm set strict-ssl false
 }
 
@@ -25,6 +27,19 @@ function addNodeInstance() {
   sudo mv $instanceName.conf /etc/init.d/$instanceName
   sudo update-rc.d $instanceName defaults
   cd $CURRDIR
+}
+
+function addNginxRec() {
+  instanceName=$1
+  CONFFILE=/etc/nginx/sites-available/s21.conf
+
+  echo "server {
+    listen 80;
+    server_name $instanceName.skola.local;
+    location / {
+      proxy_pass http://unix:/var/run/$instanceName.socket;
+    }
+  }" | sudo tee -a $CONFFILE
 }
 
 function installDhcpdRest() {
@@ -42,6 +57,7 @@ function installDhcpdRest() {
   #echo "export CORSORIGIN="192.168.1.1" >> .env
 
   addNodeInstance $APPNAME
+  addNginxRec $APPNAME
 
   sudo aptitude install python-pip -y
   sudo pip install git+git://github.com/vencax/py-dhcpd-manipulation
@@ -58,10 +74,13 @@ function installUserman() {
   cd $APPNAME
   npm install
 
-  echo "export SERVER_SECRET=$SERVERSECRET" >> .env
+  echo "export SERVER_SECRET=$SERVERSECRET" > .env
+  echo "export DATABASE_URL='mysql://$USERDB_USERNAME:$USERDB_PWD@localhost:3306/$USERDB_NAME'" >> .env
+  echo "export PWD_SALT=wiojaoijqpkp" >> .env
   #echo "export CORSORIGIN="192.168.1.1" >> .env
 
   addNodeInstance $APPNAME
+  addNginxRec $APPNAME
 }
 
 function installEduITServer {
@@ -75,6 +94,7 @@ function installEduITServer {
   echo "export FRONTEND_APP=$NODEAPPDIR/angular-eduit" >> .env
 
   addNodeInstance $APPNAME
+  addNginxRec $APPNAME
 }
 
 function installAngularApp {
@@ -90,7 +110,7 @@ sudo mkdir $NODEAPPDIR && sudo chown $USER $NODEAPPDIR
 
 # installNvm
 sudo aptitude install nodejs nodejs-legacy npm
-npm install forever -g
+sudo npm install forever grunt-cli bower -g
 
 installDhcpdRest
 installUserman

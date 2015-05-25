@@ -20,35 +20,31 @@ pidFile="/var/run/{{ NAME }}.pid"
 logFile="/var/log/{{ NAME }}.log"
 socketFile="/var/run/{{ NAME }}.socket"
 
-#command="/usr/local/nvm/nvm-exec node"
 command="node"
 appDir="/var/node/{{ NAME }}"
 nodeApp="$appDir/server.js"
-foreverApp="forever"
+
+# source NVM to have node and npm
+source /usr/local/nvm/nvm.sh
 
 start() {
   echo "Starting $nodeApp"
 
-  # Notice that we change the PATH because on reboot
-  # the PATH does not include the path to node.
-  # Launching forever with a full path
-  # does not work unless we set the PATH.
-  PATH=$PATH:/usr/local/nvm/current/bin/
   export PORT=$socketFile
 
-  source $appDir/.env && $foreverApp start --pidFile $pidFile -l $logFile -a -d -c "$command" $nodeApp
+  source $appDir/.env && forever start --pidFile $pidFile -l $logFile -a -d -c "$command" $nodeApp
   RETVAL=$?
-  chmod 777 $socketFile
+  sleep 3 && chmod 777 $socketFile
 }
 stop() {
   echo "Shutting down $nodeApp"
-  $foreverApp stop $nodeApp
+  forever stop $nodeApp
   RETVAL=$?
   rm $socketFile
 }
 status() {
   echo "Status $nodeApp"
-  $foreverApp list
+  forever list
   RETVAL=$?
 }
 
