@@ -1,0 +1,114 @@
+#======================= Global Settings =======================
+
+[global]
+workgroup = {{ SITE_DOMAIN }}
+server string = {{ SERVER_NAME }}
+dns proxy = yes
+
+#### Networking ####
+
+;   interfaces = 127.0.0.0/8 eth0
+;   bind interfaces only = yes
+
+#### Debugging/Accounting ####
+
+log file = /data/logs/log.%m
+max log size = 1000
+syslog = 0
+
+# Do something sensible when Samba crashes: mail the admin a backtrace
+panic action = /usr/share/samba/panic-action %d
+
+####### Authentication #######
+
+security = user
+encrypt passwords = true
+passdb backend = tdbsam
+
+#   obey pam restrictions = yes
+unix password sync = yes
+passwd program = /usr/bin/passwd %u
+passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
+
+# This boolean controls whether PAM will be used for password changes
+# when requested by an SMB client instead of the program listed in
+# 'passwd program'. The default is 'no'.
+   pam password change = yes
+
+# This option controls how unsuccessful authentication attempts are mapped
+# to anonymous connections
+map to guest = bad user
+
+########## Printing ##########
+
+# If you want to automatically load your printer list rather
+# than setting them up individually then you'll need this
+load printers = no
+
+# lpr(ng) printing. You may wish to override the location of the
+# printcap file
+;   printing = bsd
+;   printcap name = /etc/printcap
+
+# CUPS printing.  See also the cupsaddsmb(8) manpage in the
+# cupsys-client package.
+#printing = cups
+#printcap name = cups
+
+############ Misc ############
+
+# Most people will find that this option gives better performance.
+# See smb.conf(5) and /usr/share/doc/samba-doc/htmldocs/Samba3-HOWTO/speed.html
+# for details
+# You may want to add the following on a Linux system:
+#         SO_RCVBUF=8192 SO_SNDBUF=8192
+#   socket options = TCP_NODELAY
+
+# The following parameter is useful only if you have the linpopup package
+# installed. The samba maintainer and the linpopup maintainer are
+# working to ease installation and configuration of linpopup and samba.
+;   message command = /bin/sh -c '/usr/bin/linpopup "%f" "%m" %s; rm %s' &
+
+# Allow users who've been granted usershare privileges to create
+# public shares, not just authenticated ones
+   usershare allow guests = yes
+
+#======================= Share Definitions =======================
+
+# Un-comment the following (and tweak the other settings below to suit)
+# to enable the default home directory shares. This will share each
+# user's home director as \\server\username
+[homes]
+   comment = Home Directories
+   browseable = no
+   path = /data/homes/%U
+   read only = no
+   create mask = 0700
+   directory mask = 0700
+   valid users = %S
+
+# Un-comment the following and create the netlogon directory for Domain Logons
+# (you need to configure Samba to act as a domain controller too.)
+[netlogon]
+   comment = Network Logon Service
+   path = /data/shares/netlogon
+   browseable = no
+   guest ok = yes
+   read only = yes
+   share modes = no
+   write list = @spravci
+
+###############  SHARES ###################
+
+[vyuka]
+        path = /data/shares/vyuka
+        read only = No
+
+;[citlive]
+;    path = /data/shares/citlive
+;    read only = No
+;	browseable = No
+;	create mask = 0660
+;	directory mask = 0770
+;	force group = citlive
+;	valid users = @citlive
